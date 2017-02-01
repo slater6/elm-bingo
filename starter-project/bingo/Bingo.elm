@@ -64,6 +64,19 @@ viewFooter =
         [ a [ href "http://elm-lang.org" ] [ text "Powered By Elm" ] ]
 
 
+viewEntryItem : Entry -> Html msg
+viewEntryItem entry =
+    li []
+        [ span [ class "phrase" ] [ text entry.phrase ]
+        , span [ class "points" ] [ text (toString entry.points) ]
+        ]
+
+
+viewEntryList : List Entry -> Html msg
+viewEntryList entries =
+    ul [] (List.map viewEntryItem entries)
+
+
 
 -- view : Html msg
 
@@ -73,6 +86,7 @@ view model =
     div [ class "content" ]
         [ viewHeader "BUZZWORD BINGO"
         , viewPlayer model.name model.gameNumber
+        , viewEntryList model.entries
         , div [ class "debug" ] [ text (toString model) ]
         , viewFooter
         ]
