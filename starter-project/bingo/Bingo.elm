@@ -101,7 +101,28 @@ viewEntryItem entry =
 
 viewEntryList : List Entry -> Html Msg
 viewEntryList entries =
-    ul [] (List.map viewEntryItem entries)
+    let
+        listOfEntries =
+            List.map viewEntryItem entries
+    in
+        ul [] listOfEntries
+
+
+sumMarkedPoints : List Entry -> Int
+sumMarkedPoints entries =
+    entries
+        |> List.filter .marked
+        |> List.map .points
+        |> List.sum
+
+
+viewScore : Int -> Html Msg
+viewScore sum =
+    div
+        [ class "score" ]
+        [ span [ class "label" ] [ text "Score" ]
+        , span [ class "value" ] [ text (toString sum) ]
+        ]
 
 
 
@@ -114,6 +135,7 @@ view model =
         [ viewHeader "BUZZWORD BINGO"
         , viewPlayer model.name model.gameNumber
         , viewEntryList model.entries
+        , viewScore (sumMarkedPoints model.entries)
         , div [ class "button-group" ] [ button [ onClick NewGame ] [ text "New Game" ] ]
         , div [ class "debug" ] [ text (toString model) ]
         , viewFooter
