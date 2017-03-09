@@ -39,13 +39,24 @@ initialEntries =
 
 type Msg
     = NewGame
+    | Mark Int
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         NewGame ->
-            { model | gameNumber = model.gameNumber + 1 }
+            { model | gameNumber = model.gameNumber + 1, entries = initialEntries }
+
+        Mark id ->
+            let
+                markEntry e =
+                    if e.id == id then
+                        { e | marked = (not e.marked) }
+                    else
+                        e
+            in
+                { model | entries = List.map markEntry model.entries }
 
 
 
@@ -80,9 +91,9 @@ viewFooter =
         [ a [ href "http://elm-lang.org" ] [ text "Powered By Elm" ] ]
 
 
-viewEntryItem : Entry -> Html msg
+viewEntryItem : Entry -> Html Msg
 viewEntryItem entry =
-    li []
+    li [ classList [ ( "marked", entry.marked ) ], onClick (Mark entry.id) ]
         [ span [ class "phrase" ] [ text entry.phrase ]
         , span [ class "points" ] [ text (toString entry.points) ]
         ]
