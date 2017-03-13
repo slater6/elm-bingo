@@ -1,0 +1,7 @@
+/server/node_modules
+/server/elm-stuff
+
+/starter-project/bingo/elm-stuff/
+/starter-project/bingo/elm.js
+/starter-project/bingo/bingo.js
+/starter-project/bingo/node_modules/
